@@ -21,20 +21,10 @@ class TestSettings(unittest.TestCase):
         Check that the file path passed in the loaded correctly
         """
         dirname = os.path.dirname(__file__)
-        file_path = os.path.join(dirname, "mock_settings.yaml")
+        file_path = os.path.join(dirname, "mock_settings1.yaml")
         s = Settings(file_path=file_path)
         self.assertDictEqual(s, {'name': 'Testing'})
 
-    def test_file_loading_from_environ(self):
-        """
-        Check that the file path is read from the environment parameter when it is not prvided
-        to the constructor
-        """
-        dirname = os.path.dirname(__file__)
-        file_path = os.path.join(dirname, "mock_settings.yaml")
-        os.environ['DOCUSTORE_SETTINGS_FILE'] = file_path
-        s = Settings()
-        self.assertDictEqual(s, {'name': 'Testing'})
 
     def test_error_when_no_yaml_provided(self):
         """
@@ -61,7 +51,16 @@ class TestSettings(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             Settings(yaml_stream=yaml_doc)
 
-
+    def test_file_loading_from_environ(self):
+        """
+        Check that the file path is read from the environment parameter when it is not prvided
+        to the constructor
+        """
+        dirname = os.path.dirname(__file__)
+        file_path = os.path.join(dirname, "mock_settings2.yaml")
+        os.environ['BIONIC_SETTINGS_FILE'] = file_path
+        s = Settings()
+        self.assertDictEqual(s, {'name': 'Testing2'})
 
 if __name__ == '__main__':
     unittest.main()

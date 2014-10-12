@@ -32,16 +32,17 @@ class Settings(dict):
         file_path -- alternative to passing in a stream, this will open the file and load it using
                      PyYaml safe_load
         """
+        print "Reading YAML"
         parsed_yaml = None
         if yaml_stream:
             parsed_yaml = yaml.safe_load(yaml_stream)
-        elif not file_path and os.environ.get('DOCUSTORE_SETTINGS_FILE'):
-            file_path = os.environ['DOCUSTORE_SETTINGS_FILE']
-        elif file_path:
+        elif not file_path and os.environ.get('BIONIC_SETTINGS_FILE'):
+            file_path = os.environ['BIONIC_SETTINGS_FILE']
+        if file_path:
             with open(file_path, 'r') as yaml_file:
                 parsed_yaml = yaml.safe_load(yaml_file)
         else:
-            raise RuntimeError("Cannot locate settings module.  Have you set the 'DOCUSTORE_SETTINGS_FILE' enviornment variable")
+            raise RuntimeError("Cannot locate settings module.  Have you set the 'BIONIC_SETTINGS_FILE' enviornment variable")
         if parsed_yaml is None:
             raise RuntimeError("Error while parsing settings file")
         try:
